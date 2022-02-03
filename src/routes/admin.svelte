@@ -1,16 +1,12 @@
-<script>
+<script lang="ts">
     import axios from "axios";
-	import { onMount } from "svelte";
 
-    let priceList;
+    let priceList: string;
 
-    onMount(async () => {
-        axios.post("http://localhost:2000/updatewatchprice", {priceList: priceList});
-    })
-
-    const handleOnSubmit = (e) => {
+    const handleOnSubmit = (e: any) => {
         e.preventDefault()
         console.log(e.target)
+        axios.post("http://localhost:2000/updatewatchprice", {priceList: JSON.parse(priceList).coordinatesPostPurchase, brand_id: 1});
     }
 </script>
 

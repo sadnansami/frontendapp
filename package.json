@@ -1,6 +1,7 @@
 {
 	"name": "frontendapp",
 	"version": "0.0.1",
+	"proxy": "http://localhost:2000",
 	"scripts": {
 		"dev": "svelte-kit dev",
 		"build": "svelte-kit build",
@@ -33,6 +34,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"axios": "^0.24.0"
+		"axios": "^0.24.0",
+		"firebase": "^9.6.5"
 	}
 }

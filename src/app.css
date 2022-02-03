@@ -10,3 +10,7 @@
 		@apply font-bold;
 	}
 }
+
+* {
+	font-family: "Raleway";
+}
