@@ -60,7 +60,7 @@
 	</div>
 	<div class="snap-start snap-always h-screen w-auto bg-cover bg-center bg-fixed relative" style="background-image: url('./herobg.jpg')">
 		<nav class="h-16 flex flex-row items-center justify-between">
-			<a class="p-4 hover:bg-white transition-colors duration-500" href="/#" on:click={toggleSearch} on:moupseleave={() => {fillSearchSVGHover = null}} on:mouseenter={() => {fillSearchSVGHover = "fill-black"}}><Search32 class="{fillSearchSVGHover} fill-white"></Search32></a>
+			<a class="p-4 hover:bg-white transition-colors duration-500" href="/#" on:click={toggleSearch} on:mouseleave={() => {fillSearchSVGHover = null}} on:mouseenter={() => {fillSearchSVGHover = "fill-black"}}><Search32 class="{fillSearchSVGHover} fill-white"></Search32></a>
 			<h1 class="text-white text-center text-4xl font-thin">Watchify</h1>
 			<a class="p-4 hover:bg-white transition-colors duration-500" href="/Auth" on:mouseleave={() => {fillUserSVGHover = null}} on:mouseenter={() => {fillUserSVGHover = "fill-black"}}><User32 class="{fillUserSVGHover} fill-white"></User32></a>
 		</nav>
