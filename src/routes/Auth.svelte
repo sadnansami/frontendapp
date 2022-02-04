@@ -5,6 +5,7 @@
 	import Navbar from "./Navbar.svelte";
 	import "../app.css"
 
+	let user: Object;
 
 	//Empty declaration of the function since the Svelte compiler returns an error because it doesnt't exist before 'onMount()' is called
 	let signInGoogle = () => {
@@ -30,7 +31,7 @@
 		};
 
 		getRedirectResult(auth).then((result) => {
-			console.log(result!.user)
+			user = result!.user.displayName!
 		});
 	})
 </script>
@@ -38,5 +39,8 @@
 <main>
 	<Navbar></Navbar>
 	<h1>Auth Page</h1>
+	{#if typeof user != "undefined"}
+		Welcome {user}<br>
+	{/if}
 	<button class="bg-teal-500 p-3 text-white" on:click={signInGoogle}>Sign In with Google</button>
 </main>

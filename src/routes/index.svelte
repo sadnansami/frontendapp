@@ -1,17 +1,21 @@
 <script lang="ts">
-	import axios from "axios";
 	import { onMount } from "svelte";
 	import Search32 from "carbon-icons-svelte/lib/Search32/Search32.svelte";
 	import User32 from "carbon-icons-svelte/lib/User32/User32.svelte";
 	import Close32 from "carbon-icons-svelte/lib/Close32/Close32.svelte";
+	import gsap from "gsap";
+	//import ScrollTrigger from "gsap/ScrollTrigger"
 	import 	"../app.css";
 
 	//watches is supposed to be of type "Array<Object>" however at compile time, Typescript is unaware of data received on loading the website
 	let watches: any;
 
 	onMount(async () => {
-		axios.get("http://localhost:2000/readwatches").then((res) => {
-			watches = res.data
+		fetch("http://localhost:2000/readwatches").then((res) => {
+			//res contains the entire HTTP response; JSON body is extracted and returned to the next "then()" statement
+			return res.json()
+		}).then((data) => {
+			watches = data
 			console.log(watches, typeof watches)
 		})
 	})
@@ -28,6 +32,21 @@
 			searchOverlay = "invisible";
 		}
 	}
+
+	//Try Block is required since the "gsap" module works on the client side while the code is compiled on the server
+	if(typeof window != "undefined") {
+		//gsap.registerPlugin(ScrollTrigger)
+		gsap.from(".herotextleft", {opacity: 0, duration: 1, x: -300})
+		gsap.from(".herotextright", {opacity: 0, duration: 1, x: 300})
+		gsap.from(".card", {
+			opacity: 0,
+			duration: 1,
+			y: 300 ,
+			stagger: 0.3,
+			delay:1,
+		})
+	}
+
 </script>
 
 <main class="snap-y snap-mandatory scroll-smooth">
@@ -41,28 +60,28 @@
 	</div>
 	<div class="snap-start snap-always h-screen w-auto bg-cover bg-center bg-fixed relative" style="background-image: url('./herobg.jpg')">
 		<nav class="h-16 flex flex-row items-center justify-between">
-			<a class="p-4 hover:bg-white transition-colors duration-500" href="/#" on:click={toggleSearch} on:mouseleave={() => {fillSearchSVGHover = null}} on:mouseenter={() => {fillSearchSVGHover = "fill-black"}}><Search32 class="{fillSearchSVGHover} fill-white"></Search32></a>
+			<a class="p-4 hover:bg-white transition-colors duration-500" href="/#" on:click={toggleSearch} on:moupseleave={() => {fillSearchSVGHover = null}} on:mouseenter={() => {fillSearchSVGHover = "fill-black"}}><Search32 class="{fillSearchSVGHover} fill-white"></Search32></a>
 			<h1 class="text-white text-center text-4xl font-thin">Watchify</h1>
 			<a class="p-4 hover:bg-white transition-colors duration-500" href="/Auth" on:mouseleave={() => {fillUserSVGHover = null}} on:mouseenter={() => {fillUserSVGHover = "fill-black"}}><User32 class="{fillUserSVGHover} fill-white"></User32></a>
 		</nav>
 		<div class="px-10">
-			<h1 class="herotext hover:transition-transform hover:ease-in-out hover:duration:700 focus:translate-x-5 font-thin tracking-wide text-white">Redefining</h1>
-			<h1 class="herotext absolute bottom-0 right-10 font-thin tracking-wide text-white text-right">Watch<br>Collections</h1>	
+			<h1 class="herotext herotextleft hover:transition-transform hover:ease-in-out hover:duration:700 focus:translate-x-5 font-thin tracking-wide text-white">Redefining</h1>
+			<h1 class="herotext herotextright absolute bottom-0 right-10 font-thin tracking-wide text-white text-right">Watch<br>Collections</h1>	
 		</div>
 	</div>
 	<div class="snap-start snap-always min-h-screen w-auto px-10 py-10" id="browse">
 		<div class="min-h-screen grid grid-cols-3 grid-rows-3 gap-6">
 			{#if watches}
 				{#each watches as watch}
-					<div class="aspect-square bg-center bg-cover rounded-xl shadow-lg shadow-black/25 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-black/40 hover:bg-black/50 bg-blend-darken text-white/0 hover:text-white/100 flex flex-col items-center justify-center" style="background-image: url('./watchImages/profesional-watches-gmt-master-ii.webp');">
+					<div class="card aspect-square bg-center bg-cover rounded-xl shadow-lg shadow-black/25 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-black/40 hover:bg-black/50 bg-blend-darken text-white/0 hover:text-white/100 flex flex-col items-center justify-center" style="background-image: url('./watchImages/profesional-watches-gmt-master-ii.webp');">
 						<span>{watch.name}</span>
 					</div>
 				{/each}
 			{/if}
 			
-			<div class="aspect-square bg-center bg-cover rounded-xl shadow-lg shadow-black/25 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-black/40 hover:bg-black/50 bg-blend-darken" style="background-image: url('./watchImages/2190654.jpeg.transform.vacfwhd.webp');"></div>
-			<div class="aspect-square bg-center bg-cover rounded-xl shadow-lg shadow-black/25 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-black/40 hover:bg-black/50 bg-blend-darken" style="background-image: url('./watchImages/4997_200G_001_12.jpg');"></div>
-			<div class="aspect-square bg-center bg-cover rounded-xl shadow-lg shadow-black/25 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-black/40 hover:bg-black/50 bg-blend-darken" style="background-image: url('./watchImages/4947G_010_11.jpg');"></div>
+			<div class="card aspect-square bg-center bg-cover rounded-xl shadow-lg shadow-black/25 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-black/40 hover:bg-black/50 bg-blend-darken" style="background-image: url('./watchImages/2190654.jpeg.transform.vacfwhd.webp');"></div>
+			<div class="card aspect-square bg-center bg-cover rounded-xl shadow-lg shadow-black/25 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-black/40 hover:bg-black/50 bg-blend-darken" style="background-image: url('./watchImages/4997_200G_001_12.jpg');"></div>
+			<div class="card aspect-square bg-center bg-cover rounded-xl shadow-lg shadow-black/25 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-black/40 hover:bg-black/50 bg-blend-darken" style="background-image: url('./watchImages/4947G_010_11.jpg');"></div>
 		</div>
 	</div>
 </main>
