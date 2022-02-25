@@ -6,7 +6,6 @@
 	import Model24 from "carbon-icons-svelte/lib/Model24/Model24.svelte";
 	import ChevronDown32 from "carbon-icons-svelte/lib/ChevronDown32/ChevronDown32.svelte";
 	import gsap from "gsap";
-	import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 	import FetchAPI from "../classes/FetchAPI";
 	import Search from "../classes/Search";
 	import 	"../app.css";
@@ -17,9 +16,6 @@
 	let auth: Auth;
 
 	const search = new Search()
-	ScrollTrigger.refresh()
-	gsap.registerPlugin(ScrollTrigger)
-
 
 	onMount(async () => {
 		watches = await FetchAPI.readWatches()
